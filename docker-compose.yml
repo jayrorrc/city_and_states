@@ -52,7 +52,7 @@ services:
     volumes:
       - type: "bind"
         source: ./config/auth_config.json
-        target: /opt/api/auth_config.json
+        target: /opt/app/auth_config.json
       - type: bind
         source: ./app
         target: /opt/app
