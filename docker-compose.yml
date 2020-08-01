@@ -1,0 +1,66 @@
+version: "3.2"
+
+services:
+  mongo:
+    container_name: db
+    image: mongo:latest
+    working_dir: /opt/DB_Files
+    networks:
+      - city-and-states-network
+    ports:
+      - "27017:27017"
+    volumes:
+      - type: "bind"
+        source: ./config/mongod.conf
+        target: /etc/mongod.conf
+      - type: volume
+        source: db
+        target: /data/db
+  api:
+    container_name: api
+    image: api:latest
+    build:
+      context: .
+      dockerfile: ./dockerfiles/dk-api.Dockerfile
+    networks:
+      - city-and-states-network
+    ports:
+      - "8081:8080"
+    volumes:
+      - type: "bind"
+        source: ./config/mongo_config.json
+        target: /opt/api/mongo_config.json
+      - type: "bind"
+        source: ./config/auth_config.json
+        target: /opt/api/auth_config.json
+      - type: bind
+        source: ./api
+        target: /opt/api
+      - /opt/api/node_modules
+    depends_on:
+      - mongo
+  app:
+    container_name: app
+    image: app:latest
+    build:
+      context: .
+      dockerfile: ./dockerfiles/dk-app.Dockerfile
+    networks:
+      - city-and-states-network
+    ports:
+      - "8080:8080"
+    volumes:
+      - type: "bind"
+        source: ./config/auth_config.json
+        target: /opt/api/auth_config.json
+      - type: bind
+        source: ./app
+        target: /opt/app
+      - /opt/app/node_modules
+    depends_on:
+      - api
+networks:
+  city-and-states-network:
+    driver: bridge
+volumes:
+  db:
