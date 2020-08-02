@@ -8,6 +8,7 @@ export const store = new Vuex.Store({
     auth: {},
     dashboard: '',
     cities: [],
+    citiesAndStates: [],
     states: []
   },
   getters: {
@@ -26,6 +27,9 @@ export const store = new Vuex.Store({
     getCities: (state) => {
       return state.cities;
     },
+    getCitiesAndStates: (state) => {
+      return state.citiesAndStates;
+    },
     getStates: (state) => {
       return state.states;
     }
@@ -39,6 +43,9 @@ export const store = new Vuex.Store({
     },
     setCities(state, cities) {
       state.cities = cities;
+    },
+    setCitiesAndStates(state, citiesAndStates) {
+      state.citiesAndStates = citiesAndStates;
     },
     setStates(state, states) {
       state.states = states;
