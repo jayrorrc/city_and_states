@@ -1,43 +1,27 @@
 <template>
   <div class="tile is-ancestor">
-    <div class="tile is-vertical is-2">
-      <div class="tile">
-        <div class="tile is-parent is-vertical">
-          <article class="tile is-child notification is-primary">
-            <div class="content">
-              <p class="title">Menu</p>
-              <div class="content">
-                <!-- Content -->
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
+    <MainMenu />
+
+    <div class="tile" v-if="$store.getters.getDashboard === 'state'">
+      <StateDashboard />
     </div>
-    <div class="tile is-parent">
-      <article class="tile is-child notification is-warning is-2">
-        <div class="content">
-          <p class="title">Sub Menu</p>
-          <div class="content">
-            <!-- Content -->
-          </div>
-        </div>
-      </article>
-      <article class="tile is-child notification is-success">
-        <div class="content">
-          <p class="title">List</p>
-          <div class="content">
-            <!-- Content -->
-          </div>
-        </div>
-      </article>
+    <div class="tile" v-else-if="$store.getters.getDashboard === 'city'">
+      <CityDashboard />
+    </div>
+    <div class="tile" v-else>
+      <DefaultList />
     </div>
   </div>
 </template>
 <script>
+import MainMenu from "./../components/dashboard/MainMenu";
+import DefaultList from "./../components/dashboard/DefaultList";
+import CityDashboard from "./../components/dashboard/City/List";
+import StateDashboard from "./../components/dashboard/State/List";
+
 export default {
   name: "Dashboard",
-  components: {},
+  components: { MainMenu, DefaultList, CityDashboard, StateDashboard },
 };
 </script>
 <style scoped>
