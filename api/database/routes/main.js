@@ -8,5 +8,6 @@ routes.get('/', (req, res) => {
 
 routes.use('/user', require('./user'));
 routes.use('/state', verifyToken, require('./state'));
+routes.use('/city', verifyToken, require('./city'));
 
 module.exports = routes;

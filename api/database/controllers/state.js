@@ -38,7 +38,6 @@ async function post(req, res, next) {
 
     return res.status(200).json({ state: st });
   });
-
 }
 
 // list states
