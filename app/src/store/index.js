@@ -14,6 +14,9 @@ export const store = new Vuex.Store({
     isAuthorized: (state) => {
       return !!Object.keys(state.auth).length;
     },
+    getToken: (state) => {
+      return state.auth.token
+    }
   },
   mutations: {
     setAuth(state, auth) {
