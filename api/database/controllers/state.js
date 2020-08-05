@@ -56,11 +56,13 @@ async function get(req, res, next) {
 
   let state = await State.find(filter);
 
-  if (state) {
-    return res.status(200).json({ state });
+  if (!state) {
+    return res.status(404).json({ state: null, message: 'Register not found' });
   }
 
-  return res.status(404).json({ state: null, message: 'Register not found' });
+  state.sort((st1, st2) => st1.name < st2.name);
+
+  return res.status(200).json({ state });
 }
 
 // delete state

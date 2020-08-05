@@ -9,9 +9,13 @@ export default {
   props: ["item"],
   methods: {
     set(item) {
-      if (item.page == "main") {
-        this.$store.commit("setDashboard", item.id);
-      }
+      const setPage = {
+        main: () => this.$store.commit("setDashboard", item),
+        state: () => this.$store.commit("setState", item),
+        city: () => this.$store.commit("setCity", item),
+      };
+
+      setPage[item.page]();
     },
   },
 };

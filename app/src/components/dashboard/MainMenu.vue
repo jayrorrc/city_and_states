@@ -3,7 +3,7 @@
     <div class="tile">
       <div class="tile is-parent is-vertical">
         <article class="tile is-child notification is-primary">
-          <Menu :title="title" :list="dashboards" />
+          <Menu :title="title" :list="$store.getters.getDashboards" />
         </article>
       </div>
     </div>
@@ -17,23 +17,6 @@ export default {
   data: () => {
     return {
       title: "Menu",
-      dashboards: [
-        {
-          id: "main",
-          name: "Principal",
-          page: "main",
-        },
-        {
-          id: "city",
-          name: "Cidades",
-          page: "main",
-        },
-        {
-          id: "state",
-          name: "Estados",
-          page: "main",
-        },
-      ],
     };
   },
   components: {

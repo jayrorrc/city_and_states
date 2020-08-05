@@ -63,11 +63,13 @@ async function get(req, res, next) {
 
   let city = await City.find(filter);
 
-  if (city) {
-    return res.status(200).json({ city });
+  if (!city) {
+    return res.status(404).json({ city: null, message: 'Register not found' });
   }
 
-  return res.status(404).json({ city: null, message: 'Register not found' });
+  city.sort((ct1, ct2) => ct1.name < ct2.name);
+
+  return res.status(200).json({ city });
 }
 
 // list cities grouped by state
@@ -86,6 +88,10 @@ async function getGrouped(req, res, next) {
 
   let city = await City.find(filter)
     .populate('state');
+
+  if (!city) {
+    return res.status(404).json({ city: null, message: 'Register not found' });
+  }
 
   city = city.reduce((acc, ct) => {
     if (acc[ct.state.name]) {
@@ -110,11 +116,7 @@ async function getGrouped(req, res, next) {
     };
   });
 
-  if (city) {
-    return res.status(200).json({ city });
-  }
-
-  return res.status(404).json({ city: null, message: 'Register not found' });
+  return res.status(200).json({ city });
 }
 
 // delete city

@@ -15,6 +15,7 @@
 </template>
 <script>
 import Menu from "../Menu";
+import StateController from "./../../../controllers/state";
 
 export default {
   name: "List",
@@ -25,6 +26,13 @@ export default {
   },
   components: {
     Menu,
+  },
+  created() {
+    let token = this.$store.getters.getToken;
+
+    StateController.getStates(token).then((res) => {
+      this.$store.commit("setStates", res);
+    });
   },
 };
 </script>
