@@ -60,7 +60,9 @@ async function get(req, res, next) {
     return res.status(404).json({ state: null, message: 'Register not found' });
   }
 
-  state.sort((st1, st2) => st1.name < st2.name);
+  state.sort((st1, st2) => {
+    return st1.name < st2.name ? -1 : 1
+  });
 
   return res.status(200).json({ state });
 }

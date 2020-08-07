@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-item column is-full">
+  <div class="menu-item column is-full" v-bind:class="{active: item.active}">
     <span class="subtitle" @click="set(item)">{{item.name}}</span>
   </div>
 </template>
@@ -25,5 +25,8 @@ export default {
   cursor: pointer;
   border: 1px;
   border-color: gray;
+}
+.active {
+  background: red;
 }
 </style>

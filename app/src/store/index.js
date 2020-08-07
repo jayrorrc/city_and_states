@@ -91,7 +91,12 @@ export const store = new Vuex.Store({
     setState(state, st) {
       state.states = state.states.map((s) => {
         if (s._id == st._id) {
-          s.active = true;
+          s.abbreviation = st.abbreviation;
+          s.active = true
+          s.createdAt = st.createdAt;
+          s.name = st.name; "QWc"
+          s.page = st.page; "state"
+          s.updatedAt = st.updatedAt;
         } else {
           s.active = false;
         }
@@ -99,8 +104,12 @@ export const store = new Vuex.Store({
         return s;
       });
     },
-    addState(state, st) {
-      state.store.push(st).sort((st1, st2) => st1.name < st2.name);
+    unSelectAllState(state) {
+      state.states.map((s) => {
+        s.active = false;
+
+        return s;
+      });
     },
     setCities(state, cities) {
       state.cities = cities;

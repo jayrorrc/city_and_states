@@ -1,6 +1,9 @@
 <template>
   <div class="content">
-    <p class="title">{{title}}</p>
+    <p class="title">
+      {{title}}
+      <button v-bind:class="{hidden: !page}" v-on:click="newItem">+</button>
+    </p>
     <div class="content">
       <div v-for="item in list" :key="item.id" class="columns">
         <MenuItem :item="item" />
@@ -13,11 +16,21 @@ import MenuItem from "./MenuItem";
 
 export default {
   name: "Menu",
-  props: ["title", "list"],
+  props: ["title", "list", "page"],
   components: {
     MenuItem,
+  },
+  methods: {
+    newItem: function (event) {
+      if (this.page == "state") {
+        this.$store.commit("unSelectAllState");
+      }
+    },
   },
 };
 </script>
 <style scoped>
+.hidden {
+  visibility: hidden;
+}
 </style>

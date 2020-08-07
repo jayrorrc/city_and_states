@@ -67,7 +67,9 @@ async function get(req, res, next) {
     return res.status(404).json({ city: null, message: 'Register not found' });
   }
 
-  city.sort((ct1, ct2) => ct1.name < ct2.name);
+  city.sort((ct1, ct2) => {
+    return ct1.name < ct2.name ? -1 : 1
+  });
 
   return res.status(200).json({ city });
 }
@@ -103,7 +105,9 @@ async function getGrouped(req, res, next) {
       };
     }
 
-    acc[ct.state.name].cities.sort((ct1, ct2) => ct1.name < ct2.name);
+    acc[ct.state.name].cities.sort((ct1, ct2) => {
+      return ct1.name < ct2.name ? -1 : 1
+    });
 
     return acc;
   }, {});
