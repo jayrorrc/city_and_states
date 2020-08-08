@@ -1,11 +1,10 @@
 <template>
   <div class="tile is-parent">
-    <article class="tile is-child notification is-warning is-3">
-      <Menu :title="title" :list="$store.getters.getStates" :page="page" />
+    <article class="tile is-child notification is-warning is-4">
+      <Menu :title="title" :page="page" />
     </article>
     <article class="tile is-child notification is-success">
       <div class="content">
-        <p class="title">Register do Estado</p>
         <div class="content">
           <StateRegister />
         </div>

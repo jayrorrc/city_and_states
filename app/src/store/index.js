@@ -99,6 +99,9 @@ export const store = new Vuex.Store({
         return ct;
       });
     },
+    removeCity(state, city) {
+      state.cities = state.cities.filter((ct) => ct._id != city._id);
+    },
     setState(state, st) {
       state.states = state.states.map((s) => {
         if (s._id == st._id) {
@@ -121,6 +124,9 @@ export const store = new Vuex.Store({
 
         return s;
       });
+    },
+    removeState(state, st) {
+      state.states = state.states.filter((s) => s._id != st._id);
     },
     setCities(state, cities) {
       state.cities = cities;

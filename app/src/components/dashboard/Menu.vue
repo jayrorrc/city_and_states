@@ -16,9 +16,24 @@ import MenuItem from "./MenuItem";
 
 export default {
   name: "Menu",
-  props: ["title", "list", "page"],
+  props: ["title", "page"],
   components: {
     MenuItem,
+  },
+  computed: {
+    list: {
+      get() {
+        if (this.page == "state") {
+          return this.$store.getters.getStates;
+        }
+        if (this.page == "city") {
+          return this.$store.getters.getCities;
+        }
+
+        return this.$store.getters.getDashboards;
+      },
+      set() {},
+    },
   },
   methods: {
     newItem: function (event) {

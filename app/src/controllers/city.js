@@ -49,5 +49,20 @@ export default {
     city.active = false;
 
     return city;
+  },
+
+  async delete(token, id) {
+    let res = await axios.delete("http://localhost:8081/api/city", {
+      headers: {
+        'x-access-token': token
+      }, data: { id }
+    });
+
+    let city = null;
+    if (!res.data.city) {
+      city = res.data.city;
+    }
+
+    return city;
   }
 }

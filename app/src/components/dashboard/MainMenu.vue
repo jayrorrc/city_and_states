@@ -3,7 +3,7 @@
     <div class="tile">
       <div class="tile is-parent is-vertical">
         <article class="tile is-child notification is-primary">
-          <Menu :title="title" :list="$store.getters.getDashboards" />
+          <Menu :title="title" />
         </article>
       </div>
     </div>

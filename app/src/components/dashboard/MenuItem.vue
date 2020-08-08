@@ -1,9 +1,15 @@
 <template>
   <div class="menu-item column is-full" v-bind:class="{active: item.active}">
-    <span class="subtitle" @click="set(item)">{{item.name}}</span>
+    <p>
+      <span class="subtitle" @click="set(item)">{{item.name}}</span>
+      <button v-if="item.page != 'main'" @click="delItem(item)">-</button>
+    </p>
   </div>
 </template>
 <script>
+import StateController from "./../../controllers/state";
+import CityController from "./../../controllers/city";
+
 export default {
   name: "MenuItem",
   props: ["item"],
@@ -16,6 +22,44 @@ export default {
       };
 
       setPage[item.page]();
+    },
+    async delItem(item) {
+      const token = this.$store.getters.getToken;
+      const store = this.$store;
+
+      const del = {
+        state: () => {
+          StateController.delete(token, item._id)
+            .then(function (response) {
+              store.commit("removeState", item);
+              store.commit("unSelectAllState");
+              store.commit("unSelectAllCities");
+
+              return response;
+            })
+            .catch(function (error) {
+              console.error(error);
+
+              return null;
+            });
+        },
+        city: () => {
+          CityController.delete(token, item._id)
+            .then(function (response) {
+              store.commit("removeCity", item);
+              store.commit("unSelectAllCities");
+
+              return response;
+            })
+            .catch(function (error) {
+              console.error(error);
+
+              return null;
+            });
+        },
+      };
+
+      del[item.page]();
     },
   },
 };

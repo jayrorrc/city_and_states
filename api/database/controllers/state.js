@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const State = require('../models/state');
+const City = require('../models/city');
 
 // create new or update city
 async function post(req, res, next) {
@@ -71,9 +72,13 @@ async function get(req, res, next) {
 async function del(req, res, next) {
   let id = req.body.id;
 
+  console.log('id:', id);
+
+  city = await City.remove({ state: id });
+
   state = await State.deleteOne({ _id: id });
 
-  return res.status(200).json({ state });
+  return res.status(200).json({ state, city });
 }
 
 module.exports = {
