@@ -1,6 +1,12 @@
 <template>
   <div>
-    <h2>Login</h2>
+    <div v-if="isEdit">
+      <h2>Editar Estado</h2>
+    </div>
+    <div v-else>
+      <h2>Novo Estado</h2>
+    </div>
+
     <form @submit.prevent="handleSubmit">
       <div class="form-group">
         <label for="name">Nome</label>
@@ -47,6 +53,20 @@ export default {
     };
   },
   computed: {
+    isEdit: {
+      get() {
+        if (!this.$store.getters.getState) {
+          return false;
+        }
+
+        if (!this.$store.getters.getState._id) {
+          return false;
+        }
+
+        return true;
+      },
+      set() {},
+    },
     name: {
       get() {
         return this.$store.getters.getState
@@ -71,6 +91,8 @@ export default {
   methods: {
     async handleSubmit(e) {
       this.submitted = true;
+
+      console.log(_id);
 
       const _id = this.$store.getters.getState
         ? this.$store.getters.getState._id
