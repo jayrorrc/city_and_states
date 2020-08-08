@@ -24,7 +24,7 @@ export default {
       setPage[item.page]();
     },
     async delItem(item) {
-      const token = this.$store.getters.getToken;
+      let token = this.$store.getters.getToken;
       const store = this.$store;
 
       const del = {

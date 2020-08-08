@@ -1,8 +1,11 @@
 import axios from "axios"
 
+const apiConfig = require('./../../auth_config.json');
+const url = apiConfig.api_url + apiConfig.api_sufix;
+
 export default {
   async getCitiesGropByState(token) {
-    let res = await axios.get("http://localhost:8081/api/city/grouped", {
+    let res = await axios.get(url + "/city/grouped", {
       headers: {
         'x-access-token': token
       }
@@ -11,7 +14,7 @@ export default {
   },
 
   async getCities(token) {
-    let res = await axios.get("http://localhost:8081/api/city", {
+    let res = await axios.get(url + "/city", {
       headers: {
         'x-access-token': token
       }
@@ -30,7 +33,7 @@ export default {
   },
 
   async post(token, name, stateId, _id) {
-    let res = await axios.post("http://localhost:8081/api/city", {
+    let res = await axios.post(url + "/city", {
       id: _id ? _id : null,
       name,
       stateId
@@ -52,7 +55,7 @@ export default {
   },
 
   async delete(token, id) {
-    let res = await axios.delete("http://localhost:8081/api/city", {
+    let res = await axios.delete(url + "/city", {
       headers: {
         'x-access-token': token
       }, data: { id }

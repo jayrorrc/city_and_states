@@ -15,6 +15,7 @@
 <script>
 import Menu from "./Menu";
 import CityController from "./../../controllers/city";
+import StateController from "./../../controllers/state";
 import ListRow from "./ListRow";
 
 export default {
@@ -26,8 +27,8 @@ export default {
   created() {
     let token = this.$store.getters.getToken;
 
-    CityController.getCitiesGropByState(token).then((res) => {
-      this.$store.commit("setCitiesAndStates", res.city);
+    StateController.getCitiesGropByState(token).then((res) => {
+      this.$store.commit("setCitiesAndStates", res.state);
     });
   },
 };

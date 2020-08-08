@@ -55,15 +55,72 @@ async function get(req, res, next) {
     filter = { abbreviation };
   }
 
-  let state = await State.find(filter);
+  let state = await State.find(filter).sort('name');
 
   if (!state) {
     return res.status(404).json({ state: null, message: 'Register not found' });
   }
 
-  state.sort((st1, st2) => {
-    return st1.name < st2.name ? -1 : 1
-  });
+  return res.status(200).json({ state });
+}
+
+// list cities grouped by state
+async function getGrouped(req, res, next) {
+  let city = req.query.city;
+  let name = req.query.state;
+
+  let filter = {};
+  if (city && name) {
+    let cityName = new RegExp(city, "i");
+    let stateName = new RegExp(name, "i");
+
+    filter = { "cities.name": cityName, name: stateName }
+  } else if (city) {
+    let cityName = new RegExp(city, "i");
+
+    filter = { "cities.name": cityName };
+  } else if (name) {
+    let stateName = new RegExp(name, "i");
+
+    filter = { name: stateName };
+  }
+
+  let state = await State.aggregate([
+    {
+      $lookup:
+      {
+        from: 'cities',
+        localField: '_id',
+        foreignField: 'state',
+        as: 'cities'
+      }
+    }
+  ]).match(filter)
+    .sort('name');
+
+  if (city) {
+    let cityName = new RegExp(city, "i");
+
+    state = state.map((st) => {
+      st.cities = st.cities
+        .filter(
+          (ct) => ct.name.match(cityName))
+        .sort((ct1, ct2) => {
+          return ct1.name < ct2.name ? -1 : 1
+        });
+
+      return st;
+    });
+  } else {
+    state = state.map((st) => {
+      st.cities = st.cities
+        .sort((ct1, ct2) => {
+          return ct1.name < ct2.name ? -1 : 1
+        });
+
+      return st;
+    })
+  }
 
   return res.status(200).json({ state });
 }
@@ -84,5 +141,6 @@ async function del(req, res, next) {
 module.exports = {
   post,
   get,
+  getGrouped,
   del
 };

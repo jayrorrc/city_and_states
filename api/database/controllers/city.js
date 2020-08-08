@@ -61,15 +61,11 @@ async function get(req, res, next) {
     filter = { state: { '$in': stateId } };
   }
 
-  let city = await City.find(filter);
+  let city = await City.find(filter).sort('name');
 
   if (!city) {
     return res.status(404).json({ city: null, message: 'Register not found' });
   }
-
-  city.sort((ct1, ct2) => {
-    return ct1.name < ct2.name ? -1 : 1
-  });
 
   return res.status(200).json({ city });
 }
