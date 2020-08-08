@@ -2,7 +2,7 @@
   <div class="tile is-parent">
     <article class="tile is-child notification is-success">
       <div class="content">
-        <p class="title">Lista Padrão</p>
+        <ListFilter />
         <div class="content">
           <div v-for="state in $store.getters.getCitiesAndStates" :key="state.id" class="columns">
             <ListRow :state="state" />
@@ -14,15 +14,16 @@
 </template>
 <script>
 import Menu from "./Menu";
-import CityController from "./../../controllers/city";
 import StateController from "./../../controllers/state";
 import ListRow from "./ListRow";
+import ListFilter from "./ListFilter";
 
 export default {
   name: "List",
   components: {
     Menu,
     ListRow,
+    ListFilter,
   },
   created() {
     let token = this.$store.getters.getToken;
