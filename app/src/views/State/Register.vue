@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import StateController from "../../controllers/state";
+import StateController from "./../../controllers/state";
 
 export default {
   name: "RegisterState",
@@ -91,8 +91,6 @@ export default {
   methods: {
     async handleSubmit(e) {
       this.submitted = true;
-
-      console.log(_id);
 
       const _id = this.$store.getters.getState
         ? this.$store.getters.getState._id
