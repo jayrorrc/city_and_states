@@ -7,7 +7,7 @@
       <div class="content">
         <p class="title">Register do Estado</p>
         <div class="content">
-          <StateRegister :state="$store.getters.getState" />
+          <StateRegister />
         </div>
       </div>
     </article>

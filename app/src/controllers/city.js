@@ -27,5 +27,27 @@ export default {
 
       return city;
     });
+  },
+
+  async post(token, name, stateId, _id) {
+    let res = await axios.post("http://localhost:8081/api/city", {
+      id: _id ? _id : null,
+      name,
+      stateId
+    }, {
+      headers: {
+        'x-access-token': token
+      }
+    });
+
+    if (!res.data.city) {
+      return null;
+    }
+
+    let city = res.data.city;
+    city.page = "city";
+    city.active = false;
+
+    return city;
   }
 }

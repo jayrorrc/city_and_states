@@ -80,10 +80,21 @@ export const store = new Vuex.Store({
     setCity(state, city) {
       state.cities = state.cities.map((ct) => {
         if (ct._id == city._id) {
+          ct.name = city.name;
           ct.active = true;
+          ct.state = city.state;
+          ct.page = city.page;
+          ct.updatedAt = city.updatedAt;
         } else {
           ct.active = false;
         }
+
+        return ct;
+      });
+    },
+    unSelectAllCities(state) {
+      state.cities = state.cities.map((ct) => {
+        ct.active = false;
 
         return ct;
       });
@@ -94,8 +105,8 @@ export const store = new Vuex.Store({
           s.abbreviation = st.abbreviation;
           s.active = true
           s.createdAt = st.createdAt;
-          s.name = st.name; "QWc"
-          s.page = st.page; "state"
+          s.name = st.name;
+          s.page = st.page;
           s.updatedAt = st.updatedAt;
         } else {
           s.active = false;
@@ -105,7 +116,7 @@ export const store = new Vuex.Store({
       });
     },
     unSelectAllState(state) {
-      state.states.map((s) => {
+      state.states = state.states.map((s) => {
         s.active = false;
 
         return s;

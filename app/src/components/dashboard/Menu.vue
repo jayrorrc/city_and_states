@@ -24,6 +24,8 @@ export default {
     newItem: function (event) {
       if (this.page == "state") {
         this.$store.commit("unSelectAllState");
+      } else if (this.page == "city") {
+        this.$store.commit("unSelectAllCities");
       }
     },
   },
