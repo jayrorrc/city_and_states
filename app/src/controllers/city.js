@@ -13,8 +13,14 @@ export default {
     return res.data;
   },
 
-  async getCities(token) {
-    let res = await axios.get(url + "/city", {
+  async getCities(token, query) {
+    let fullUrl = url + "/city";
+
+    if (query) {
+      fullUrl = fullUrl + '?' + query;
+    }
+
+    let res = await axios.get(fullUrl, {
       headers: {
         'x-access-token': token
       }

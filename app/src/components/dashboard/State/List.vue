@@ -30,6 +30,7 @@ export default {
     StateRegister,
   },
   created() {
+    this.$store.commit("setCities", []);
     let token = this.$store.getters.getToken;
 
     StateController.getStates(token).then((res) => {

@@ -32,6 +32,7 @@ export default {
   created() {
     let token = this.$store.getters.getToken;
 
+    this.$store.commit("unSelectAllState");
     CityController.getCities(token).then((res) => {
       this.$store.commit("setCities", res);
     });

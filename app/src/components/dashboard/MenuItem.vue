@@ -21,7 +21,16 @@ export default {
     set(item) {
       const setPage = {
         main: () => this.$store.commit("setDashboard", item),
-        state: () => this.$store.commit("setState", item),
+        state: () => {
+          let token = this.$store.getters.getToken;
+          let query = "stateId=" + item._id;
+
+          this.$store.commit("setState", item);
+
+          CityController.getCities(token, query).then((res) => {
+            this.$store.commit("setCities", res);
+          });
+        },
         city: () => this.$store.commit("setCity", item),
       };
 

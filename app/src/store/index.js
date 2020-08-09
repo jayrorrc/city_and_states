@@ -28,7 +28,8 @@ export const store = new Vuex.Store({
     ],
     cities: [],
     citiesAndStates: [],
-    states: []
+    states: [],
+    modal: false,
   },
   getters: {
     getAuth: (state) => {
@@ -60,6 +61,9 @@ export const store = new Vuex.Store({
     },
     getStates: (state) => {
       return state.states;
+    },
+    showModal: (state) => {
+      return state.modal;
     }
   },
   mutations: {
@@ -136,6 +140,9 @@ export const store = new Vuex.Store({
     },
     setStates(state, states) {
       state.states = states;
+    },
+    setModal: (state, modal) => {
+      state.modal = modal;
     }
   }
 })

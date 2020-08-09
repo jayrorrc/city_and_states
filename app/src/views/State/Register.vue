@@ -7,41 +7,61 @@
       <h2>Novo Estado</h2>
     </div>
 
-    <form @submit.prevent="handleSubmit">
+    <form @submit.prevent="handleSubmit" class="app-state">
       <div class="form-group">
-        <label for="name">Nome</label>
-        <input
-          type="text"
-          v-model="name"
-          name="name"
-          class="form-control"
-          :class="{ 'is-invalid': submitted && !name }"
-        />
-        <div v-show="submitted && !name" class="invalid-feedback">O estado precisa de um nome</div>
+        <div class="app-state-label name">
+          <label for="name">Nome:</label>
+        </div>
+        <div class="app-state-input">
+          <input
+            type="text"
+            v-model="name"
+            name="name"
+            class="form-control"
+            :class="{ 'is-invalid': submitted && !name }"
+          />
+          <div v-show="submitted && !name" class="invalid-feedback">O estado precisa de um nome</div>
+        </div>
       </div>
       <div class="form-group">
-        <label for="abbreviation">Abbreviation</label>
-        <input
-          type="abbreviation"
-          v-model="abbreviation"
-          name="abbreviation"
-          class="form-control"
-          :class="{ 'is-invalid': submitted && !abbreviation }"
-        />
-        <div
-          v-show="submitted && !abbreviation"
-          class="invalid-feedback"
-        >O estado precisa de uma abreviação</div>
+        <div class="app-state-label">
+          <label for="abbreviation" class="app-state-label">Abbreviation:</label>
+        </div>
+        <div class="app-state-input">
+          <input
+            type="abbreviation"
+            v-model="abbreviation"
+            name="abbreviation"
+            class="form-control"
+            :class="{ 'is-invalid': submitted && !abbreviation }"
+          />
+          <div
+            v-show="submitted && !abbreviation"
+            class="invalid-feedback"
+          >O estado precisa de uma abreviação</div>
+          <div
+            v-show="submitted && !isLetter"
+            class="invalid-feedback"
+          >Abreviação precisa ter duas letras maiúsculas</div>
+        </div>
       </div>
       <div class="form-group">
-        <input type="submit" value="Save" />
+        <div class="app-state-button">
+          <input type="submit" value="Save" />
+        </div>
       </div>
     </form>
+    <br />
+    <br />
+    <div class="app-state-list-city" v-if="isEdit">
+      <Menu :title="'Cidades'" :page="'city'" :child="true" />
+    </div>
   </div>
 </template>
 
 <script>
 import StateController from "./../../controllers/state";
+import Menu from "./../../components/dashboard/Menu";
 
 export default {
   name: "RegisterState",
@@ -52,20 +72,23 @@ export default {
       submitted: false,
     };
   },
+  components: {
+    Menu,
+  },
   computed: {
-    isEdit: {
-      get() {
-        if (!this.$store.getters.getState) {
-          return false;
-        }
+    isLetter: function () {
+      return /^[A-Z]{2}$/.test(this.abbreviation);
+    },
+    isEdit: function () {
+      if (!this.$store.getters.getState) {
+        return false;
+      }
 
-        if (!this.$store.getters.getState._id) {
-          return false;
-        }
+      if (!this.$store.getters.getState._id) {
+        return false;
+      }
 
-        return true;
-      },
-      set() {},
+      return true;
     },
     name: {
       get() {
@@ -133,3 +156,36 @@ export default {
   },
 };
 </script>
+<style scoped>
+.app-state,
+.app-state-list-city {
+  width: 285px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.app-state .form-group {
+  margin: 5px;
+  display: inline-flex;
+  width: 100%;
+}
+
+.app-state .form-group .app-state-label {
+  margin-left: auto;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
+.app-state .form-group .app-state-label.name {
+  margin-right: 56px;
+}
+
+.app-state .form-group .app-state-input {
+  margin-right: auto;
+  margin-top: 5px;
+}
+
+.app-state .app-state-button {
+  margin-left: auto;
+}
+</style>
