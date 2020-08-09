@@ -28,7 +28,7 @@
           <label for="stateId">Estado:</label>
         </div>
         <div class="app-city-input">
-          <select v-model="stateId">
+          <select v-model="stateId" :readonly="child">
             <option
               v-for="state in $store.getters.getStates"
               v-bind:value="state._id"
@@ -200,5 +200,11 @@ export default {
 
 .app-city .app-city-button {
   margin-left: auto;
+}
+
+select[readonly] {
+  background: #eee;
+  pointer-events: none;
+  touch-action: none;
 }
 </style>
