@@ -2,9 +2,12 @@ import axios from "axios"
 
 const apiConfig = require('./../../auth_config.json');
 const url = apiConfig.api_url + apiConfig.api_sufix;
+const securityHeader = authConfig.security_header
 
 export default {
   async getCitiesGropByState(token, query) {
+    let headers = {}
+    headers['headers'][securityHeader] = token;
 
     let fullUrl = url + "/state/grouped";
 
@@ -12,26 +15,21 @@ export default {
       fullUrl = fullUrl + '?' + query;
     }
 
-    let res = await axios.get(fullUrl, {
-      headers: {
-        'x-access-token': token
-      }
-    });
+    let res = await axios.get(fullUrl, headers);
     return res.data;
   },
 
   async getStates(token, query) {
+    let headers = {}
+    headers['headers'][securityHeader] = token;
+
     let fullUrl = url + "/state";
 
     if (query) {
       fullUrl = fullUrl + '?' + query;
     }
 
-    let res = await axios.get(fullUrl, {
-      headers: {
-        'x-access-token': token
-      }
-    });
+    let res = await axios.get(fullUrl, headers);
 
     if (!res.data.state) {
       return [];
@@ -46,15 +44,14 @@ export default {
   },
 
   async post(token, name, abbreviation, _id) {
+    let headers = {}
+    headers['headers'][securityHeader] = token;
+
     let res = await axios.post(url + "/state", {
       id: _id ? _id : null,
       name,
       abbreviation
-    }, {
-      headers: {
-        'x-access-token': token
-      }
-    });
+    }, headers);
 
     if (!res.data.state) {
       return null;
@@ -68,10 +65,11 @@ export default {
   },
 
   async delete(token, id) {
+    let headers = {}
+    headers['headers'][securityHeader] = token;
+
     let res = await axios.delete(url + "/state", {
-      headers: {
-        'x-access-token': token
-      }, data: { id }
+      headers, data: { id }
     });
 
     let city = null;

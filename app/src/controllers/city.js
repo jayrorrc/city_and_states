@@ -2,29 +2,28 @@ import axios from "axios"
 
 const apiConfig = require('./../../auth_config.json');
 const url = apiConfig.api_url + apiConfig.api_sufix;
+const securityHeader = authConfig.security_header
 
 export default {
   async getCitiesGropByState(token) {
-    let res = await axios.get(url + "/city/grouped", {
-      headers: {
-        'x-access-token': token
-      }
-    });
+    let headers = {}
+    headers['headers'][securityHeader] = token;
+
+    let res = await axios.get(url + "/city/grouped", headers);
     return res.data;
   },
 
   async getCities(token, query) {
+    let headers = {}
+    headers['headers'][securityHeader] = token;
+
     let fullUrl = url + "/city";
 
     if (query) {
       fullUrl = fullUrl + '?' + query;
     }
 
-    let res = await axios.get(fullUrl, {
-      headers: {
-        'x-access-token': token
-      }
-    });
+    let res = await axios.get(fullUrl, headers);
 
     if (!res.data.city) {
       return [];
@@ -39,15 +38,14 @@ export default {
   },
 
   async post(token, name, stateId, _id) {
+    let headers = {}
+    headers['headers'][securityHeader] = token;
+
     let res = await axios.post(url + "/city", {
       id: _id ? _id : null,
       name,
       stateId
-    }, {
-      headers: {
-        'x-access-token': token
-      }
-    });
+    }, headers);
 
     if (!res.data.city) {
       return null;
@@ -61,10 +59,11 @@ export default {
   },
 
   async delete(token, id) {
+    let headers = {}
+    headers['headers'][securityHeader] = token;
+
     let res = await axios.delete(url + "/city", {
-      headers: {
-        'x-access-token': token
-      }, data: { id }
+      headers, data: { id }
     });
 
     let city = null;
