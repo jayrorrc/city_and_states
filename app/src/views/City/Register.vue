@@ -21,13 +21,6 @@
       </div>
       <div class="form-group">
         <label for="stateId">Estado</label>
-        <!-- <input
-          type="stateId"
-          v-model="stateId"
-          name="stateId"
-          class="form-control"
-          :class="{ 'is-invalid': submitted && !stateId }"
-        />-->
         <select v-model="stateId">
           <option
             v-for="state in $store.getters.getStates"

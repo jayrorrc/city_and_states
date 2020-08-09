@@ -4,8 +4,15 @@ const apiConfig = require('./../../auth_config.json');
 const url = apiConfig.api_url + apiConfig.api_sufix;
 
 export default {
-  async getCitiesGropByState(token) {
-    let res = await axios.get(url + "/state/grouped", {
+  async getCitiesGropByState(token, query) {
+
+    let fullUrl = url + "/state/grouped";
+
+    if (query) {
+      fullUrl = fullUrl + '?' + query;
+    }
+
+    let res = await axios.get(fullUrl, {
       headers: {
         'x-access-token': token
       }
