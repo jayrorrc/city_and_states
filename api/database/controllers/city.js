@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const State = require('../models/state');
 const City = require('../models/city');
 
-// create new or update state
+// create new or update city
 async function post(req, res, next) {
 
   let name = req.body.name;
@@ -47,8 +47,35 @@ async function post(req, res, next) {
   });
 }
 
-// list states
+// list cities
 async function get(req, res, next) {
+  let name = req.query.name;
+  let stateId = req.query.stateId;
+
+  let filter = {};
+  if (name && stateId) {
+    let cityName = new RegExp(name, "i");
+
+    filter = { name: cityName, state: { '$in': stateId } }
+  } else if (name) {
+    let cityName = new RegExp(name, "i");
+
+    filter = { name: cityName };
+  } else if (stateId) {
+    filter = { state: { '$in': stateId } };
+  }
+
+  let city = await City.find(filter).sort('name');
+
+  if (!city) {
+    return res.status(404).json({ city: null, message: 'Register not found' });
+  }
+
+  return res.status(200).json({ city });
+}
+
+// list cities grouped by state
+async function getGrouped(req, res, next) {
   let name = req.query.name;
   let stateId = req.query.stateId;
 
@@ -61,16 +88,42 @@ async function get(req, res, next) {
     filter = { state: { '$in': stateId } };
   }
 
-  let city = await City.find(filter);
+  let city = await City.find(filter)
+    .populate('state');
 
-  if (city) {
-    return res.status(200).json({ city });
+  if (!city) {
+    return res.status(404).json({ city: null, message: 'Register not found' });
   }
 
-  return res.status(404).json({ city: null, message: 'Register not found' });
+  city = city.reduce((acc, ct) => {
+    if (acc[ct.state.name]) {
+      acc[ct.state.name]['cities'].push({ name: ct.name, id: ct._id });
+    } else {
+      acc[ct.state.name] = {
+        id: ct.state._id,
+        cities: [{ name: ct.name, id: ct._id }]
+      };
+    }
+
+    acc[ct.state.name].cities.sort((ct1, ct2) => {
+      return ct1.name < ct2.name ? -1 : 1
+    });
+
+    return acc;
+  }, {});
+
+  city = Object.keys(city).map((st) => {
+    return {
+      name: st,
+      cities: city[st]['cities'],
+      id: city[st]['id']
+    };
+  });
+
+  return res.status(200).json({ city });
 }
 
-// delete state
+// delete city
 async function del(req, res, next) {
   let id = req.body.id;
 
@@ -82,5 +135,6 @@ async function del(req, res, next) {
 module.exports = {
   post,
   get,
+  getGrouped,
   del
 };
