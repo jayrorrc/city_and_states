@@ -2,7 +2,6 @@
   <div class="column is-full">
     <details>
       <summary>{{state.name}}</summary>
-      <br />
       <div v-for="city in state.cities" :key="city.id" class="columns">
         <ListRowDetail :city="city" />
       </div>
@@ -25,5 +24,12 @@ export default {
   cursor: pointer;
   border: 1px;
   border-color: gray;
+}
+summary {
+  width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  text-align: justify;
 }
 </style>

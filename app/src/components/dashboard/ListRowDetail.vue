@@ -1,6 +1,6 @@
 <template>
   <div class="column is-full">
-    <span>{{city.name}}</span>
+    <li>{{city.name}}</li>
   </div>
 </template>
 <script>
@@ -14,5 +14,11 @@ export default {
   cursor: pointer;
   border: 1px;
   border-color: gray;
+}
+
+li {
+  width: 300px;
+  margin: auto;
+  text-align: justify;
 }
 </style>

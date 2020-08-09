@@ -9,8 +9,8 @@
       </div>
     </div>
     <div class="filters">
-      <CityListFilter v-if="page=='city'" />
-      <StateListFilter v-if="page=='state'" />
+      <CityListFilter v-if="page=='city' && list.length" />
+      <StateListFilter v-if="page=='state' && list.length" />
     </div>
     <div class="content">
       <div v-for="item in list" :key="item.id" class="columns">
