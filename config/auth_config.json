@@ -1,0 +1,6 @@
+{
+    "key": "privatekey",
+    "api_url": "http://localhost:8081",
+    "api_sufix": "/api",
+    "security_header": "x-access-token"
+}
