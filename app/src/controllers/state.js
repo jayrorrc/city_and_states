@@ -20,8 +20,14 @@ export default {
     return res.data;
   },
 
-  async getStates(token) {
-    let res = await axios.get(url + "/state", {
+  async getStates(token, query) {
+    let fullUrl = url + "/state";
+
+    if (query) {
+      fullUrl = fullUrl + '?' + query;
+    }
+
+    let res = await axios.get(fullUrl, {
       headers: {
         'x-access-token': token
       }

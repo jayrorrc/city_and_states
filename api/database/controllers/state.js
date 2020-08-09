@@ -48,9 +48,13 @@ async function get(req, res, next) {
 
   let filter = {};
   if (name && abbreviation) {
-    filter = { name, abbreviation }
+    let stateName = new RegExp(name, "i");
+
+    filter = { name: stateName, abbreviation }
   } else if (name) {
-    filter = { name };
+    let stateName = new RegExp(name, "i");
+
+    filter = { name: stateName };
   } else if (abbreviation) {
     filter = { abbreviation };
   }

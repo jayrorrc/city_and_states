@@ -1,7 +1,7 @@
 <template>
   <div class="menu-item column is-full" v-bind:class="{active: item.active}">
     <div class="columns">
-      <div class="column">
+      <div class="column names" v-bind:class="{submenu: item.page != 'main'}">
         <span class="subtitle" @click="set(item)">{{item.name}}</span>
       </div>
       <div class="column is-one-fifth">
@@ -85,5 +85,13 @@ export default {
 }
 .active {
   background: red;
+}
+
+.names {
+  text-align: justify;
+}
+
+.names.submenu {
+  margin-left: 35px;
 }
 </style>

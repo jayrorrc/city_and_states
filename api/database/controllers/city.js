@@ -54,9 +54,13 @@ async function get(req, res, next) {
 
   let filter = {};
   if (name && stateId) {
-    filter = { name, state: { '$in': stateId } }
+    let cityName = new RegExp(name, "i");
+
+    filter = { name: cityName, state: { '$in': stateId } }
   } else if (name) {
-    filter = { name };
+    let cityName = new RegExp(name, "i");
+
+    filter = { name: cityName };
   } else if (stateId) {
     filter = { state: { '$in': stateId } };
   }

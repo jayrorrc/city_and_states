@@ -8,6 +8,10 @@
         <button v-if="page" v-on:click="newItem">+</button>
       </div>
     </div>
+    <div class="filters">
+      <CityListFilter v-if="page=='city'" />
+      <StateListFilter v-if="page=='state'" />
+    </div>
     <div class="content">
       <div v-for="item in list" :key="item.id" class="columns">
         <MenuItem :item="item" />
@@ -30,6 +34,8 @@
 <script>
 import MenuItem from "./MenuItem";
 import CityRegister from "./../../views/City/Register";
+import CityListFilter from "./City/ListFilter";
+import StateListFilter from "./State/ListFilter";
 
 export default {
   name: "Menu",
@@ -37,6 +43,8 @@ export default {
   components: {
     MenuItem,
     CityRegister,
+    CityListFilter,
+    StateListFilter,
   },
   computed: {
     list: function () {
@@ -101,5 +109,9 @@ export default {
 
 .modal-container {
   color: black;
+}
+
+.filters {
+  margin: 15px;
 }
 </style>
