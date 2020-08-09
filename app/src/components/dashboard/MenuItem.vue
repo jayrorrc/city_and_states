@@ -1,9 +1,13 @@
 <template>
   <div class="menu-item column is-full" v-bind:class="{active: item.active}">
-    <p>
-      <span class="subtitle" @click="set(item)">{{item.name}}</span>
-      <button v-if="item.page != 'main'" @click="delItem(item)">-</button>
-    </p>
+    <div class="columns">
+      <div class="column">
+        <span class="subtitle" @click="set(item)">{{item.name}}</span>
+      </div>
+      <div class="column is-one-fifth">
+        <button v-if="item.page != 'main'" @click="delItem(item)">-</button>
+      </div>
+    </div>
   </div>
 </template>
 <script>

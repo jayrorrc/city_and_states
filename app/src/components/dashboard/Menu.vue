@@ -1,9 +1,13 @@
 <template>
   <div class="content">
-    <p class="title">
-      {{title}}
-      <button v-bind:class="{hidden: !page}" v-on:click="newItem">+</button>
-    </p>
+    <div class="columns">
+      <div class="column">
+        <span class="title">{{title}}</span>
+      </div>
+      <div class="column is-one-fifth" v-if="page">
+        <button v-if="page" v-on:click="newItem">+</button>
+      </div>
+    </div>
     <div class="content">
       <div v-for="item in list" :key="item.id" class="columns">
         <MenuItem :item="item" />
