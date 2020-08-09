@@ -1,12 +1,24 @@
 <template>
   <div class="content">
-    <div>
-      <label for="cityName">Cidade</label>
-      <input type="text" v-model="cityName" cityName="cityName" class="form-control" />
+    <div class="app-row">
+      <div class="app-column left">
+        <label for="cityName">Cidade:</label>
+        <input type="text" v-model="cityName" cityName="cityName" />
+      </div>
+      <div class="app-column right">
+        <label for="reverseCity">Reverter Ordem:</label>
+        <input type="checkbox" v-model="reverseCity" true-value="1" false-value="-1" />
+      </div>
     </div>
-    <div>
-      <label for="stateName">Estado</label>
-      <input type="text" v-model="stateName" stateName="stateName" class="form-control" />
+    <div class="app-row">
+      <div class="app-column left">
+        <label for="stateName">Estado:</label>
+        <input type="text" v-model="stateName" stateName="stateName" />
+      </div>
+      <div class="app-column right">
+        <label for="reverseState">Reverter Ordem:</label>
+        <input type="checkbox" v-model="reverseState" true-value="-1" false-value="1" />
+      </div>
     </div>
   </div>
 </template>
@@ -19,27 +31,46 @@ export default {
     return {
       cityName: "",
       stateName: "",
+      reverseCity: "-1",
+      reverseState: "1",
     };
   },
   watch: {
     cityName: function (value) {
-      this.updateList(value, this.stateName);
+      this.updateList();
     },
     stateName: function (value) {
-      this.updateList(this.cityName, value);
+      this.updateList();
+    },
+    reverseCity: function (value) {
+      this.updateList();
+    },
+    reverseState: function (value) {
+      this.updateList();
     },
   },
   methods: {
-    updateList(city, state) {
+    updateList() {
       let query = "";
 
-      if (state) {
-        query = "state=" + value;
+      if (this.stateName) {
+        query = "state=" + this.stateName;
       }
 
-      if (city) {
-        query += "&city=" + this.cityName;
+      if (query) {
+        query += "&";
       }
+
+      if (this.cityName) {
+        query += "city=" + this.cityName;
+      }
+
+      if (query) {
+        query += "&";
+      }
+
+      query += "cityOrder=" + this.reverseCity;
+      query += "&stateOrder=" + this.reverseState;
 
       let token = this.$store.getters.getToken;
 
@@ -51,4 +82,19 @@ export default {
 };
 </script>
 <style scoped>
+.app-row {
+  display: inline-flex;
+  width: 100%;
+}
+.app-row .app-column {
+  margin: 5px;
+}
+
+.app-row .app-column.left {
+  margin-left: auto;
+}
+
+.app-row .app-column.right {
+  margin-right: auto;
+}
 </style>

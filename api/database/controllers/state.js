@@ -68,6 +68,8 @@ async function get(req, res, next) {
 async function getGrouped(req, res, next) {
   let city = req.query.city;
   let name = req.query.state;
+  let cityOrder = parseInt(req.query.cityOrder);
+  let stateOrder = parseInt(req.query.stateOrder);
 
   let filter = {};
   if (city && name) {
@@ -96,7 +98,7 @@ async function getGrouped(req, res, next) {
       }
     }
   ]).match(filter)
-    .sort('name');
+    .sort({ name: stateOrder });
 
   if (city) {
     let cityName = new RegExp(city, "i");
@@ -106,7 +108,7 @@ async function getGrouped(req, res, next) {
         .filter(
           (ct) => ct.name.match(cityName))
         .sort((ct1, ct2) => {
-          return ct1.name < ct2.name ? -1 : 1
+          return ct1.name < ct2.name ? cityOrder : cityOrder * (-1);
         });
 
       return st;
@@ -115,7 +117,7 @@ async function getGrouped(req, res, next) {
     state = state.map((st) => {
       st.cities = st.cities
         .sort((ct1, ct2) => {
-          return ct1.name < ct2.name ? -1 : 1
+          return ct1.name < ct2.name ? cityOrder : cityOrder * (-1);
         });
 
       return st;
