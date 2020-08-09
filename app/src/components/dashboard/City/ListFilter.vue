@@ -31,6 +31,16 @@ export default {
         query += "name=" + this.cityName;
       }
 
+      let state = this.$store.getters.getState;
+
+      if (query) {
+        query += "&";
+      }
+
+      if (state) {
+        query += "stateId=" + state._id;
+      }
+
       let token = this.$store.getters.getToken;
 
       CityController.getCities(token, query).then((res) => {

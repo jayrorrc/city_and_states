@@ -2,12 +2,13 @@ import axios from "axios"
 
 const apiConfig = require('./../../auth_config.json');
 const url = apiConfig.api_url + apiConfig.api_sufix;
-const securityHeader = authConfig.security_header
+const securityHeader = apiConfig.security_header
 
 export default {
   async getCitiesGropByState(token, query) {
-    let headers = {}
-    headers['headers'][securityHeader] = token;
+    let headers = {};
+    headers['headers'] = {};
+    headers.headers[securityHeader] = token;
 
     let fullUrl = url + "/state/grouped";
 
@@ -20,8 +21,9 @@ export default {
   },
 
   async getStates(token, query) {
-    let headers = {}
-    headers['headers'][securityHeader] = token;
+    let headers = {};
+    headers['headers'] = {};
+    headers.headers[securityHeader] = token;
 
     let fullUrl = url + "/state";
 
@@ -44,8 +46,9 @@ export default {
   },
 
   async post(token, name, abbreviation, _id) {
-    let headers = {}
-    headers['headers'][securityHeader] = token;
+    let headers = {};
+    headers['headers'] = {};
+    headers.headers[securityHeader] = token;
 
     let res = await axios.post(url + "/state", {
       id: _id ? _id : null,
@@ -65,8 +68,9 @@ export default {
   },
 
   async delete(token, id) {
-    let headers = {}
-    headers['headers'][securityHeader] = token;
+    let headers = {};
+    headers['headers'] = {};
+    headers.headers[securityHeader] = token;
 
     let res = await axios.delete(url + "/state", {
       headers, data: { id }

@@ -2,7 +2,7 @@
   <div class="tile is-parent">
     <article class="tile is-child notification is-success">
       <div class="content">
-        <ListFilter v-if="$store.getters.getCitiesAndStates.length" />
+        <ListFilter />
         <div class="content">
           <div v-for="state in $store.getters.getCitiesAndStates" :key="state.id" class="columns">
             <ListRow :state="state" />
