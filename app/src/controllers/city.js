@@ -2,12 +2,13 @@ import axios from "axios"
 
 const apiConfig = require('./../../auth_config.json');
 const url = apiConfig.api_url + apiConfig.api_sufix;
-const securityHeader = authConfig.security_header
+const securityHeader = apiConfig.security_header
 
 export default {
   async getCitiesGropByState(token) {
     let headers = {}
-    headers['headers'][securityHeader] = token;
+    headers['headers'] = {};
+    headers.headers[securityHeader] = token;
 
     let res = await axios.get(url + "/city/grouped", headers);
     return res.data;
@@ -15,7 +16,8 @@ export default {
 
   async getCities(token, query) {
     let headers = {}
-    headers['headers'][securityHeader] = token;
+    headers['headers'] = {};
+    headers.headers[securityHeader] = token;
 
     let fullUrl = url + "/city";
 
@@ -39,7 +41,8 @@ export default {
 
   async post(token, name, stateId, _id) {
     let headers = {}
-    headers['headers'][securityHeader] = token;
+    headers['headers'] = {};
+    headers.headers[securityHeader] = token;
 
     let res = await axios.post(url + "/city", {
       id: _id ? _id : null,
@@ -60,7 +63,8 @@ export default {
 
   async delete(token, id) {
     let headers = {}
-    headers['headers'][securityHeader] = token;
+    headers['headers'] = {};
+    headers.headers[securityHeader] = token;
 
     let res = await axios.delete(url + "/city", {
       headers, data: { id }
